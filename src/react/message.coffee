@@ -11,6 +11,7 @@ Message = React.createClass
     this.updateDimensions()
   componentDidMount: ->
     window.addEventListener("resize", this.updateDimensions)
+    twttr.widgets.load(@getDOMNode())
   componentWillUnmount: ->
     window.removeEventListener("resize", this.updateDimensions)
   mixins: [ ReactEmoji ]
@@ -27,12 +28,24 @@ Message = React.createClass
         <img className="chat-image" style={imgStyle} src={ @props.msg.text.replace(/^</, '').replace(/>$/, '') } />
       </div>
     else
-      <div className="message">
-        <span className="avatar">
-          <img src={ @props.user.profile.image_192 } />
-        </span>
-        <h4 className="author">{ @props.user.name }</h4>
-        <div className="content text">{ @emojify(@props.msg.text) }</div>
-      </div>
+      matches = @props.msg.text.match(/^<https:\/\/twitter\.com\/([^\/]+)\/status\/(.*)>$/)
+      if matches and matches[2]?
+        <div className="Twitter">
+          <a className="twitter-timeline"
+          href={this.props.link}
+          data-widget-id={matches[2]}
+          data-screen-name={matches[1]} >
+
+          Tweets by {matches[1]}
+          </a>
+        </div>
+      else
+        <div className="message">
+          <span className="avatar">
+            <img src={ @props.user.profile.image_192 } />
+          </span>
+          <h4 className="author">{ @props.user.name }</h4>
+          <div className="content text">{ @emojify(@props.msg.text) }</div>
+        </div>
 
 module.exports = Message

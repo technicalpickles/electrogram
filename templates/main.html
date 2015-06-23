@@ -4,10 +4,13 @@
     <title>Welcome to SlackHQ</title>
     <script src="https://fb.me/react-0.13.3.js"></script>
     <script src="https://fb.me/JSXTransformer-0.13.3.js"></script>
+    <script src="https://platform.twitter.com/widgets.js">
+    </script>
     <script>
       window.$ = require('jquery')
       require("coffee-script/register")
       require("../src/main")
+      twttr.widgets.load(document.getElementsByClassName("twitter-timeline"));
     </script>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/base.css">
